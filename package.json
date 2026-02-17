@@ -6,12 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.39",
+    "@ai-sdk/google": "^3.0.23",
+    "@ai-sdk/react": "^3.0.80",
+    "@heroicons/react": "^2.2.0",
+    "ai": "^3.4.0",
+    "lucide": "^0.563.0",
+    "lucide-react": "^0.563.0",
     "next": "16.1.6",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -1,0 +1,58 @@
+'use client';
+
+interface ShopBannerProps {
+  title?: string;
+  breadcrumbs?: { label: string; href: string }[];
+  backgroundImage?: string;
+}
+
+export default function Banner({
+  title = "Shop",
+  breadcrumbs = [
+    { label: "HOME", href: "/" },
+    { label: "SHOP", href: "/shop" }
+  ],
+  backgroundImage = "https://static01.nyt.com/images/2024/09/30/multimedia/27shrine-room2-zfhp/27shrine-room2-zfhp-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
+}: ShopBannerProps) {
+  return (
+    <div className="relative h-70 flex items-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0">
+        <img
+          src={backgroundImage}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/40" />
+      </div>
+
+      {/* Content */}
+      <div className="relative mt-25 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+          {title}
+        </h1>
+        
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-3 text-sm">
+          {breadcrumbs.map((crumb, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <a
+                href={crumb.href}
+                className={`transition-colors ${
+                  index === breadcrumbs.length - 1
+                    ? 'text-slate-400 pointer-events-none'
+                    : 'text-white hover:text-[#5b714b]'
+                }`}
+              >
+                {crumb.label}
+              </a>
+              {index < breadcrumbs.length - 1 && (
+                <span className="text-slate-400">·</span>
+              )}
+            </div>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
