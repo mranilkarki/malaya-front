@@ -1,14 +1,17 @@
-import TradeItems from '@/components/malayatrade/tradeItems'
-import Banner from '@/components/shared/banner'
-import React from 'react'
+import React from 'react';
+import TradeItems from '@/components/malayatrade/tradeItems'; // Check exact file casing (TradeItems vs tradeItems)
+import Banner from '@/components/shared/banner';
 
-function Trade() {
+export const metadata = {
+  title: 'Malaya Trade | Connecting Himalayan Products to the World',
+  description: 'Specialty coffee, Himalayan crafts, agriculture, and international trade.',
+};
+
+export default function TradePage() {
   return (
-    <>
-        <Banner />
-        <TradeItems />
-    </>
-  )
+    <div className="w-full bg-white">
+      <Banner />
+      <TradeItems />
+    </div>
+  );
 }
-
-export default Trade

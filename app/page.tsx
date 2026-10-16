@@ -1,7 +1,10 @@
+import ExploreTravel from '@/components/home/exploreTravel'
 import HeroSection from '@/components/home/herosection'
+import NepalToWorld from '@/components/home/nepaltoworld'
 import FeaturedOutlets from '@/components/home/outlets'
-import TestimonialsSection from '@/components/home/testimonials'
-import TradeSection from '@/components/home/tradesection'
+import SocialImpact from '@/components/home/socialimpact'
+// import TestimonialsSection from '@/components/home/testimonials'
+import WorldOfBusiness from '@/components/home/worldofbusiness'
 import TravelPackagesSection from '@/components/travelPackage/travelpackage'
 
 
@@ -11,9 +14,13 @@ function Home() {
   return (
     <>
     <HeroSection />
-    <TravelPackagesSection />
-    <TradeSection />
+    <WorldOfBusiness />
+    <NepalToWorld />
+    <ExploreTravel />
+    {/* <TravelPackagesSection /> */}
+  
     <FeaturedOutlets />
+    <SocialImpact />
         {/* <TestimonialsSection /> */}
 
   

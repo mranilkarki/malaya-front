@@ -3,6 +3,9 @@ import Gallery from "@/components/travelPackage/gallery";
 import Itinerary from "@/components/travelPackage/itinerary";
 import TravelDetails from "@/components/travelPackage/traveldetails";
 
+export const revalidate = 3600;
+
+
 interface TourDetailsPageProps {
   params: Promise<{ slug: string }>;
 }

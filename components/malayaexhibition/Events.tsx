@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Search, Calendar, MapPin, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 interface ApiEvent {
   id: number;
@@ -159,7 +160,21 @@ export default function Events() {
                           {event.description}
                         </p>
                       </div>
-                      <div className="mt-4 text-2xl font-black text-slate-900">{event.price}</div>
+                      <div className="mt-4 text-2xl font-black  justify-between text-slate-900" style={{display:"flex"}}>
+                        <div>
+                          {event.price}
+                        </div>
+                        <div>
+                         <Link href="https://wa.me/9779704889881"  target="_blank" rel="noopener noreferrer">
+                            <button className="px-2 mx-5 py-2 border-2 bg-orange-500 text-white hover:bg-orange-600 rounded-xl font-bold text-lg transition-all">
+                              WhatsApp Inquiry
+                          </button>
+                          </Link>
+                        </div>
+                        
+        
+                      </div>
+                      
                     </div>
 
                     {/* Image Column */}

@@ -1,19 +1,15 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { 
-  Globe, 
-  Calendar, 
-  TrendingUp, 
-  MapPin,
-  Star,
+  
   Heart,
   Share2,
-  CheckCircle,
-  Loader2
+
 } from 'lucide-react';
 import Itinerary from './itinerary';
 import BookingSidebar from '../bookings/bookingsidebar';
 import Gallery from './gallery';
+import Loader from '../loading';
 
 interface TravelPackage {
   id: number;
@@ -27,6 +23,10 @@ interface TravelPackage {
   image_path: string;
   gallery: [];
   itineraries: [];
+  features: {
+    feature_name: string;
+    feature_value: string;
+  }[];
 }
 
 interface TravelDetailsProps {
@@ -49,7 +49,6 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
         }
         
         const data = await response.json();
-        console.log("Fetched tour data:", data);
         setTour(data);
       } catch (error) {
         console.error("Error fetching tour data:", error);
@@ -62,11 +61,7 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
   }, [slug]);
 
   if (loading) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#5b714b]" />
-      </div>
-    );
+    return <Loader />
   }
 
   if (!tour) {
@@ -77,9 +72,7 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
     );
   }
 
-  const tourHighlights = tour.highlights 
-    ? tour.highlights.split('\n').map(h => h.replace(/^\d+\.\s*/, '').trim()).filter(Boolean)
-    : [];
+
 
   return (
     <>
@@ -125,7 +118,7 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
             </div>
 
             {/* Tour Info Grid */}
-            {/* <div className="bg-slate-50 rounded-2xl px-8 border border-slate-100">
+            <div className="bg-slate-50 rounded-2xl px-8 border border-slate-100">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               
                 
@@ -148,20 +141,17 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
                 
 
               </div>
-            </div> */}
+            </div>
 
             {/* Highlights Section */}
             <div className="pt-4">
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">
                 Trip Highlights
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {tourHighlights.map((highlight, index) => (
-                  <div key={index} className="flex items-start gap-3 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                    <CheckCircle className="w-5 h-5 text-[#5b714b] flex-shrink-0 mt-0.5" />
-                    <p className="text-slate-700 leading-relaxed font-medium">{highlight}</p>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 gap-4">
+                    <div className="text-slate-700 leading-relaxed font-medium"
+                      dangerouslySetInnerHTML={{ __html: tour.highlights }}
+                    ></div>
               </div>
             </div>
 
@@ -172,9 +162,11 @@ export default function TravelDetails({ slug }: TravelDetailsProps) {
               </h2>
               <div className="prose prose-slate max-w-none">
                 {tour.description.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="text-slate-700 text-lg leading-relaxed mb-6">
-                    {paragraph}
-                  </p>
+                  <div key={index} className="text-slate-700 text-lg leading-relaxed mb-6" 
+                  
+                  dangerouslySetInnerHTML={{ __html: paragraph }} >
+
+                  </div>
                 ))}
               </div>
             </div>

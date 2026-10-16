@@ -1,95 +1,136 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  Star,
-} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const slides = [
+  {
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop',
+    title: 'Connecting Nepal to the World',
+    subtitle: 'Travel • Trade • Handicrafts • Agriculture • Hospitality',
+    description:
+      'A Nepal-based diversified business group connecting people, products, destinations and opportunities between Nepal and the world.',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2071&auto=format&fit=crop',
+    title: 'From the Himalayas to the World',
+    subtitle: 'Trekking • Expeditions • Cultural Tours',
+    description:
+      'Experience authentic Nepalese heritage, pristine trails, and bespoke adventures tailored for global explorers.',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=2070&auto=format&fit=crop',
+    title: 'Authentic Trade & Global Exports',
+    subtitle: 'Organic Agriculture • Premium Handicrafts',
+    description:
+      'Bringing authentic Himalayan produce and world-renowned artisan handicrafts directly to international markets.',
+  },
+];
 
 export default function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-advance slides every 3 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 8000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900">
-      {/* Background Image with optimized overlay */}
+      {/* Background Slides with Cross-Fade */}
       <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"
-          style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop")`,
-          }}
-        />
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100 scale-105 transition-transform duration-[4000ms]' : 'opacity-0 scale-100'
+            }`}
+            style={{ backgroundImage: `url(${slide.image})` }}
+          />
+        ))}
         {/* Gradient Overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-slate-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-slate-900/90 z-10" />
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-        
-
+      <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
         {/* Main Headline */}
-        <h1 className="text-5xl  font-extrabold text-white mb-6  mt-15 ">
-          One Vision. <br />   A World of <br/>
-          <span className="text-transparent bg-clip-text bg-[#5b714b]">
-           Experiences
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 mt-12 transition-all duration-700">
+          Malaya Globe <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-white to-emerald-100">
+            {slides[currentSlide].title}
           </span>
         </h1>
 
         {/* Subheading */}
-        <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
-          From the high peaks of the Himalayas to global trade routes, we curate excellence across industries. Explore the diverse portfolio of MalayaGlobe.
+        <h3 className="text-xl sm:text-2xl text-emerald-400 font-medium mb-4 transition-all duration-700">
+          {slides[currentSlide].subtitle}
+        </h3>
+
+        {/* Description */}
+        <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed font-light min-h-[4rem] transition-all duration-700">
+          {slides[currentSlide].description}
         </p>
 
         {/* CTA Section */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
-          <button className="w-full sm:w-auto bg-[#5b714b] hover:bg-[#4a5c3d] text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl transition-all hover:scale-105 active:scale-95">
-            Book A Trip
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
+          <a href='#business'>
+          <button className="w-full sm:w-auto bg-[#5b714b] hover:bg-[#4a5c3d] text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer">
+           Explore Our Business
           </button>
+          </a>
+
+          <div className="w-full sm:w-auto bg-white  px-10 py-4 rounded-full font-bold text-lg shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer">
+           
+              
+              <a href='/contact'><h3 className="text-1xl uppercase font-bold tracking-widest leading-none">Plan Your Journey</h3></a>
+              
           
-          <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">
-            <div className="w-10 h-10 bg-[#00AA6C] rounded-full flex items-center justify-center shadow-lg">
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 18.462a6.462 6.462 0 110-12.924 6.462 6.462 0 010 12.924z"/>
-              </svg>
-            </div>
-            <div className="text-left">
-              <p className="text-white/60 text-[10px] uppercase font-bold tracking-widest leading-none">Tripadvisor</p>
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`w-3 h-3 ${i < 4 ? 'fill-amber-400 text-amber-400' : 'fill-amber-400/30 text-amber-400'}`} />
-                  ))}
-                </div>
-                <span className="text-white font-bold text-sm leading-none">4.7 / 5.0</span>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Sector Indicators / Stats */}
-        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/10 max-w-4xl mx-auto">
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-white">15+</p>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Years of Legacy</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-white">4+</p>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Sectors</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-white">50k+</p>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Global Clients</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-white">Nepal</p>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Based Operations</p>
-          </div>
-        </div> */}
+        {/* Slide Indicator Dots */}
+        <div className="flex items-center justify-center gap-2.5">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === currentSlide ? 'w-8 bg-emerald-400' : 'w-2.5 bg-white/40 hover:bg-white/70'
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Decorative Navigation Arrows (Optional - if you have a slider) */}
-      <button className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-[#5b714b] text-white transition-all hidden lg:flex">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+      {/* Manual Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        aria-label="Previous slide"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-[#5b714b] text-white transition-all hidden lg:flex cursor-pointer"
+      >
+        <ChevronLeft className="w-6 h-6" />
       </button>
-      <button className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-[#5b714b] text-white transition-all hidden lg:flex">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+
+      <button
+        onClick={nextSlide}
+        aria-label="Next slide"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-[#5b714b] text-white transition-all hidden lg:flex cursor-pointer"
+      >
+        <ChevronRight className="w-6 h-6" />
       </button>
     </section>
   );

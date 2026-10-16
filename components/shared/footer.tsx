@@ -1,23 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Youtube, Mail, MapPin, Phone, Send } from 'lucide-react';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
+  const [details, setDetails] = useState<any>(null);
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [res] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/business-details`),
+        ]);
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Newsletter signup:', email);
-    setEmail('');
-  };
+        if (res.ok) setDetails(await res.json());
+      } catch (error) {
+        console.error('Failed to fetch business details:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   const quickLinks = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Destinations', href: '/destinations' },
-    { label: 'Tour Packages', href: '/tours' },
-    { label: 'Article', href: '/blog' },
+    { label: 'MalayaTrade', href: '/malaya-trade' },
+    { label: 'Exhibition', href: '/exhibition' },
     { label: 'Contact Us', href: '/contact' },
   ];
 
@@ -41,12 +49,13 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2 mb-6 group">
               
-              <span className="text-2xl font-bold">MalayaGlobe</span>
+              <span className="text-2xl font-bold">{details?.name || 'MalayaGlobe'}</span>
+        
             </Link>
             <h3 className="text-xl font-bold mb-4">Want To Take Tour Packages?</h3>
-            <button className="bg-[#FEA500] hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
-              Book A Tour
-            </button>
+            <Link href="/book-tour" className="bg-[#FEA500] hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+              Book A Tour Package
+            </Link>
           </div>
 
           {/* Quick Links */}
@@ -72,7 +81,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-white flex-shrink-0" />
-                <span className="text-slate-300">+977- 9704889881</span>
+                <span className="text-slate-300">{details?.contact_phone}</span>
               </li>
               <li>
                 <h4 className="text-sm font-semibold mb-2 text-white">Send Mail</h4>
@@ -80,15 +89,13 @@ export default function Footer() {
                   href="mailto:info@malayaglobe.com"
                   className="text-slate-300 hover:text-white transition-colors"
                 >
-                  info@malayaglobe.com
+                  {details?.contact_email || 'info@malayaglobe.com'}
                 </a>
               </li>
               <li>
                 <h4 className="text-sm font-semibold mb-2 text-white">Address</h4>
                 <p className="text-slate-300">
-                 Boudha, Kathmandu
-                  <br />
-                 Nepal
+                 {details?.address || 'Boudha, Kathmandu\nNepal'}
                 </p>
               </li>
             </ul>
@@ -96,12 +103,30 @@ export default function Footer() {
 
           {/* We Are Here */}
           <div>
-            <h3 className="text-lg font-bold mb-6">We Are Here</h3>
             <p className="text-slate-300 mb-6 leading-relaxed">
-             Get in touch with us for unforgettable travel experiences. Whether you have questions, need assistance, or want to share your travel stories, we're here to listen and help. Reach out to us via phone, email, or visit our office in Kathmandu. Your next adventure starts with us!
+              {details?.description}
             </p>
             <div>
-              <h4 className="text-sm font-semibold mb-4">Payment Partner</h4>
+               <div>
+              <h4 className="text-sm font-semibold mb-4">Connect With Us</h4>
+              <div className="flex">
+                <a href={details?.facebook_url} target="_blank" rel="noopener noreferrer" className="mr-4">
+                  <Facebook className="w-5 h-5 text-white hover:text-blue-500 transition-colors" />
+                </a>
+                <a href={details?.twitter_url} target="_blank" rel="noopener noreferrer" className="mr-4">
+                  <Twitter className="w-5 h-5 text-white hover:text-blue-400 transition-colors" />
+                </a>
+                <a href={details?.instagram_url} target="_blank" rel="noopener noreferrer" className="mr-4">
+                  <Instagram className="w-5 h-5 text-white hover:text-pink-500 transition-colors" />
+                </a>
+                <a href={details?.youtube_url} target="_blank" rel="noopener noreferrer" className="mr-4">
+                  <Youtube className="w-5 h-5 text-white hover:text-red-500 transition-colors" />
+                </a>
+              </div>
+            </div>
+              
+              <h4 className="text-sm font-semibold mt-4 mb-3">Payment Partner</h4>
+
               <div className="flex flex-wrap gap-2">
                 {paymentMethods.map((method, index) => (
                   <div

@@ -1,57 +1,69 @@
 'use client';
 
-interface ShopBannerProps {
+import Link from 'next/link';
+
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface BannerProps {
   title?: string;
-  breadcrumbs?: { label: string; href: string }[];
-  backgroundImage?: string;
+  subtitle?: string;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 export default function Banner({
-  title = "Shop",
+  title = 'Malaya Trade',
+  subtitle = 'Connecting Himalayan products with global markets.',
   breadcrumbs = [
-    { label: "HOME", href: "/" },
-    { label: "SHOP", href: "/shop" }
+    { label: 'HOME', href: '/' },
+    { label: 'MALAYA TRADE', href: '/malaya-trade' },
   ],
-  backgroundImage = "https://static01.nyt.com/images/2024/09/30/multimedia/27shrine-room2-zfhp/27shrine-room2-zfhp-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-}: ShopBannerProps) {
+}: BannerProps) {
   return (
-    <div className="relative h-70 flex items-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
-        <img
-          src={backgroundImage}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/40" />
-      </div>
-
-      {/* Content */}
-      <div className="relative mt-25 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+    <div className="bg-[#5b714b] text-white py-14 md:py-16 mt-15">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Main Title & Slogan */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2">
           {title}
         </h1>
         
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-3 text-sm">
-          {breadcrumbs.map((crumb, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <a
-                href={crumb.href}
-                className={`transition-colors ${
-                  index === breadcrumbs.length - 1
-                    ? 'text-slate-400 pointer-events-none'
-                    : 'text-white hover:text-[#5b714b]'
-                }`}
-              >
-                {crumb.label}
-              </a>
-              {index < breadcrumbs.length - 1 && (
-                <span className="text-slate-400">·</span>
-              )}
-            </div>
-          ))}
+        {subtitle && (
+          <p className="text-base sm:text-lg text-emerald-100 max-w-2xl mb-4 font-light">
+            {subtitle}
+          </p>
+        )}
+
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center gap-2 text-xs sm:text-sm font-medium">
+          {breadcrumbs.map((crumb, index) => {
+            const isLast = index === breadcrumbs.length - 1;
+
+            return (
+              <div key={index} className="flex items-center gap-2">
+                {isLast ? (
+                  <span className="text-emerald-200 cursor-default">
+                    {crumb.label}
+                  </span>
+                ) : (
+                  <Link
+                    href={crumb.href}
+                    className="text-white hover:text-emerald-200 transition-colors"
+                  >
+                    {crumb.label}
+                  </Link>
+                )}
+
+                {!isLast && (
+                  <span className="text-emerald-300/70">/</span>
+                )}
+              </div>
+            );
+          })}
         </nav>
+
       </div>
     </div>
   );

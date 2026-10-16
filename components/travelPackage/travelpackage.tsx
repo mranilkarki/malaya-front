@@ -5,6 +5,8 @@ import { MapPin, ArrowRight, Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import Loader from '../loading';
+
 interface travelPackage {
   id: string;
   imageUrl: string;
@@ -28,25 +30,26 @@ interface travelPackage {
 }
 
 export default function TravelPackagesSection() {
-  const [activeTab, setActiveTab] = useState<'travel' | 'hotel' | 'transport'>('travel');
   const [travelPackages, setTravelPackages] = useState<travelPackage[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTravelPackages = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/travel-packages`);
         const data = await response.json();
-        console.log('Fetched travel packages:', data);
         setTravelPackages(data);
       } catch (error) {
         console.error('Error fetching travel packages:', error);
+      } finally {
+        setLoading(false); 
       }
     };
 
     fetchTravelPackages();
   }, []);
 
- 
+  if (loading) return <Loader  />;
 
   return (
     <section className="py-10 bg-gradient-to-b from-white via-slate-50 to-white relative overflow-hidden">
@@ -60,7 +63,7 @@ export default function TravelPackagesSection() {
         {/* Section Header */}
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
-            Ultimate Travel Experience
+            Explore Nepal and Beyond
           </h2>
           <p className="text-slate-500 text-sm mt-2">Discover our curated travel packages designed for unforgettable journeys. Make it Happen with MalayaGlobe. </p>
         

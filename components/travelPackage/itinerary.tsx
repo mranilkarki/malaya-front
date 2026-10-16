@@ -108,9 +108,8 @@ export default function Itinerary({ itinerary }: ItineraryProps) {
               {/* Day Content */}
               {isExpanded && (
                 <div className="px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50">
-                  <p className="text-slate-700 leading-relaxed mb-4">
-                    {dayInfo.description}
-                  </p>
+                  <div className="text-slate-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: dayInfo.description }} >
+                  </div>
 
                   {/* Additional Info */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">

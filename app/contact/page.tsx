@@ -12,7 +12,7 @@ const Contact = () => {
             <Phone className="w-8 h-8 mb-4 text-gray-700" strokeWidth={1.5} />
             <h3 className="text-xl font-semibold mb-3">Phone</h3>
             <p className="text-gray-500 text-sm leading-relaxed mb-4 max-w-xs">
-              A wonderful serenity has taken possession of my entire soul, like these sweet mornings.
+              Contact us for any inquiries, bookings, or assistance. Our team is ready to help you plan your perfect trip.
             </p>
             <a href="tel:+9779704889881" className="text-gray-900 font-medium">+977-9704889881</a>
           </div>
@@ -21,7 +21,7 @@ const Contact = () => {
             <Mail className="w-8 h-8 mb-4 text-gray-700" strokeWidth={1.5} />
             <h3 className="text-xl font-semibold mb-3">Email</h3>
             <p className="text-gray-500 text-sm leading-relaxed mb-4 max-w-xs">
-              A wonderful serenity has taken possession of my entire soul, like these sweet mornings.
+              Have questions or need assistance? Reach out to us via email and our team will get back to you shortly.
             </p>
             <a href="mailto:Contact@traveltourtheme.co" className="text-gray-900 font-medium">travel@malaya.com</a>
           </div>
